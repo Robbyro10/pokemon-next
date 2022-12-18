@@ -25,7 +25,7 @@ export const NavBar = () => {
         </Link>
       </Navbar.Brand>
 
-      <Navbar.Content hideIn="xs">
+      <Navbar.Content>
         <Navbar.Link href="/favorites">Favorites</Navbar.Link>
       </Navbar.Content>
     </Navbar>

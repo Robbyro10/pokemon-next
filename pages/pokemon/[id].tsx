@@ -30,7 +30,7 @@ const PokemonPage: NextPage<Pokemon> = ({ pokemon }: any) => {
   };
 
   return (
-    <Layout title="Algun Pokemon">
+    <Layout title={"Pokemon - " + pokemon.name}>
       <Grid.Container css={{ marginTop: "5px" }} gap={2}>
         <Grid xs={12} sm={4}>
           <Card isHoverable variant="flat" css={{ padding: "30px" }}>
@@ -52,16 +52,19 @@ const PokemonPage: NextPage<Pokemon> = ({ pokemon }: any) => {
             <Card.Header
               css={{ display: "flex", justifyContent: "space-between" }}
             >
-              <Text h1 transform="capitalize">
-                {pokemon.name}
-              </Text>
-              <Button
-                color="gradient"
-                ghost={!isInFavorites}
-                onPress={onToggleFavorite}
-              >
-                {isInFavorites ? "En Favoritos" : "Guardar en favoritos"}
-              </Button>
+              <div>
+                <Text h1 transform="capitalize">
+                  {pokemon.name}
+                </Text>
+                <Button
+                  color="gradient"
+                  rounded
+                  bordered={!isInFavorites}
+                  onPress={onToggleFavorite}
+                >
+                  {isInFavorites ? "En Favoritos" : "Guardar en favoritos"}
+                </Button>
+              </div>
             </Card.Header>
             <Card.Body>
               <Text size={30}>Sprites:</Text>
