@@ -7,6 +7,7 @@ import Document, {
   DocumentContext,
 } from "next/document";
 import { CssBaseline } from "@nextui-org/react";
+import { SSRProvider } from "@react-aria/ssr";
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -22,8 +23,10 @@ class MyDocument extends Document {
       <Html lang="en">
         <Head>{CssBaseline.flush()}</Head>
         <body>
-          <Main />
-          <NextScript />
+          <SSRProvider>
+            <Main />
+            <NextScript />
+          </SSRProvider>
         </body>
       </Html>
     );

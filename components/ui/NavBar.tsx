@@ -20,7 +20,7 @@ export const NavBar = () => {
         <Link href="/" passHref legacyBehavior>
           <a style={{ display: "flex" }}>
             <Text h2>P</Text>
-            <Text h3>ókemon</Text>
+            <Text h3>ókeHedd</Text>
           </a>
         </Link>
       </Navbar.Brand>
