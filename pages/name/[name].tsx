@@ -1,6 +1,7 @@
 import { Button, Card, Container, Grid, Image, Text } from "@nextui-org/react";
 import confetti from "canvas-confetti";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { Layout } from "../../components/layouts";
 import { Pokemon, PokemonName } from "../../interfaces";
@@ -11,6 +12,7 @@ const PokemonByNamePage: NextPage<Pokemon> = ({ pokemon }: any) => {
     localFavorites.existsInFavorites(pokemon.id)
   );
 
+  const router = useRouter();
   const onToggleFavorite = () => {
     localFavorites.toggleFavorite(pokemon.id);
     setIsInFavorites(!isInFavorites);
@@ -97,6 +99,9 @@ const PokemonByNamePage: NextPage<Pokemon> = ({ pokemon }: any) => {
           </Card>
         </Grid>
       </Grid.Container>
+      <Button rounded onPress={() => router.push(`/pokemon/${pokemon.id + 1}`)}>
+        Next Pokemon
+      </Button>
     </Layout>
   );
 };
@@ -111,17 +116,29 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
     paths: pokemonNames.map((name: string) => ({
       params: { name },
     })),
-    fallback: false,
+    // fallback: false,
+    fallback: "blocking",
   };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { name } = params as { name: string };
+  const pokemon = await getPokemonInfo(name);
+
+  if (!pokemon) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
 
   return {
     props: {
-      pokemon: await getPokemonInfo(name),
+      pokemon,
     },
+    revalidate: 86400,
   };
 };
 

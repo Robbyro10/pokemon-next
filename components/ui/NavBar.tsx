@@ -7,7 +7,7 @@ export const NavBar = () => {
   const { theme } = useTheme();
 
   return (
-    <Navbar variant="sticky">
+    <Navbar variant="floating">
       <Navbar.Brand>
         <Link href="/" passHref>
           <Image

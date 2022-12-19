@@ -6,11 +6,13 @@ import { Button, Card, Container, Grid, Text, Image } from "@nextui-org/react";
 import { useState } from "react";
 import { getPokemonInfo, localFavorites } from "../../utils";
 import confetti from "canvas-confetti";
+import { useRouter } from "next/router";
 
 const PokemonPage: NextPage<Pokemon> = ({ pokemon }: any) => {
   const [isInFavorites, setIsInFavorites] = useState(
     localFavorites.existsInFavorites(pokemon.id)
   );
+  const router = useRouter();
 
   const onToggleFavorite = () => {
     localFavorites.toggleFavorite(pokemon.id);
@@ -97,6 +99,18 @@ const PokemonPage: NextPage<Pokemon> = ({ pokemon }: any) => {
             </Card.Body>
           </Card>
         </Grid>
+        <Grid.Container gap={2} justify={"flex-end"}>
+          <Grid>
+            <Button
+              rounded
+              color="gradient"
+              bordered
+              onPress={() => router.push(`/pokemon/${pokemon.id + 1}`)}
+            >
+              Next Pokemon
+            </Button>
+          </Grid>
+        </Grid.Container>
       </Grid.Container>
     </Layout>
   );
@@ -110,17 +124,29 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
     paths: pokemon151.map((id) => ({
       params: { id },
     })),
-    fallback: false,
+    // fallback: false,
+    fallback: "blocking",
   };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { id } = params as { id: string };
+  const pokemon = await getPokemonInfo(id);
+
+  if (!pokemon) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
 
   return {
     props: {
-      pokemon: await getPokemonInfo(id),
+      pokemon,
     },
+    revalidate: 86400,
   };
 };
 
