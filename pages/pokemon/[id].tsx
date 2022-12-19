@@ -99,18 +99,18 @@ const PokemonPage: NextPage<Pokemon> = ({ pokemon }: any) => {
             </Card.Body>
           </Card>
         </Grid>
-        <Grid.Container gap={2} justify={"flex-end"}>
-          <Grid>
-            <Button
-              rounded
-              color="gradient"
-              bordered
-              onPress={() => router.push(`/pokemon/${pokemon.id + 1}`)}
-            >
-              Next Pokemon
-            </Button>
-          </Grid>
-        </Grid.Container>
+      </Grid.Container>
+      <Grid.Container gap={2} justify={"flex-end"}>
+        <Grid>
+          <Button
+            rounded
+            color="gradient"
+            bordered
+            onPress={() => router.push(`/pokemon/${pokemon.id + 1}`)}
+          >
+            Next Pokemon
+          </Button>
+        </Grid>
       </Grid.Container>
     </Layout>
   );
